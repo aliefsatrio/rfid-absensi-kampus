@@ -60,6 +60,6 @@ public class Users {
                 "uidRfid=" + uidrfid + 
                 ", idKaryawan=" + idUser + 
                 ", namaLengkap=" + namaLengkap + 
-                ", departemen=" + jabatan + '}';
+                ", jabatan=" + jabatan + '}';
     }
 }
