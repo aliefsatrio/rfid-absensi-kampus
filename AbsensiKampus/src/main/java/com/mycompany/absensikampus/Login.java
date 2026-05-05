@@ -32,28 +32,27 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblLogo = new javax.swing.JLabel();
         lblTitle = new javax.swing.JLabel();
         lblUserTitle = new javax.swing.JLabel();
         txtUsername = new javax.swing.JTextField();
         lblPassTitle = new javax.swing.JLabel();
         btnLogin = new javax.swing.JButton();
         txtPassword = new javax.swing.JPasswordField();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setIconImage(getIconImage());
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 60, 500, 260));
 
         lblTitle.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        lblTitle.setForeground(new java.awt.Color(51, 102, 255));
-        lblTitle.setText("Login SYNCNAU");
-        getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 190, -1, -1));
+        lblTitle.setForeground(new java.awt.Color(153, 0, 0));
+        lblTitle.setText("Login NEXA");
+        getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 240, -1, -1));
 
         lblUserTitle.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
-        lblUserTitle.setForeground(new java.awt.Color(51, 102, 255));
+        lblUserTitle.setForeground(new java.awt.Color(153, 0, 0));
         lblUserTitle.setText("USERNAME");
         getContentPane().add(lblUserTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 310, -1, -1));
 
@@ -62,11 +61,11 @@ public class Login extends javax.swing.JFrame {
         getContentPane().add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 330, 300, 40));
 
         lblPassTitle.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
-        lblPassTitle.setForeground(new java.awt.Color(0, 102, 255));
+        lblPassTitle.setForeground(new java.awt.Color(153, 0, 0));
         lblPassTitle.setText("PASSWORD");
         getContentPane().add(lblPassTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 390, -1, -1));
 
-        btnLogin.setBackground(new java.awt.Color(51, 102, 255));
+        btnLogin.setBackground(new java.awt.Color(153, 0, 0));
         btnLogin.setForeground(new java.awt.Color(255, 255, 255));
         btnLogin.setText("Login");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -77,26 +76,7 @@ public class Login extends javax.swing.JFrame {
         getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 480, 80, 30));
 
         txtPassword.setBackground(new java.awt.Color(204, 204, 204));
-        txtPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPasswordActionPerformed(evt);
-            }
-        });
         getContentPane().add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 410, 300, 40));
-
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel1.setText("MAHASISWA");
-        jLabel1.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 16, -1, 20));
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel2.setText("DOSEN");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, -1, 30));
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 250, 230, 50));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -133,10 +113,6 @@ try {
 }        // TODO add your handling code here:
     }//GEN-LAST:event_btnLoginActionPerformed
 
-    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPasswordActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -164,9 +140,7 @@ try {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblPassTitle;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblUserTitle;
