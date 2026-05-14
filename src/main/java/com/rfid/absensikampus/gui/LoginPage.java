@@ -42,6 +42,7 @@ public class LoginPage extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -91,6 +92,7 @@ public class LoginPage extends javax.swing.JFrame {
         jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 10, 100, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 260, 260, 40));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 460, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -157,6 +159,7 @@ try {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblPassTitle;
     private javax.swing.JLabel lblTitle;
