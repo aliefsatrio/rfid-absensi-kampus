@@ -1,23 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.rfid.absensikampus.gui;
 
-/**
- *
- * @author Simus
- */
-public class DashboardAdmin extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DashboardAdmin.class.getName());
+import objects.Mahasiswa;
+import services.MahasiswaServices;
 
-    /**
-     * Creates new form DashboardAdmin
-     */
+public class DashboardAdmin extends javax.swing.JFrame {
+
+    private static final java.util.logging.Logger logger =
+            java.util.logging.Logger.getLogger(DashboardAdmin.class.getName());
+
     public DashboardAdmin() {
         initComponents();
     }
+    /**
+     * This method is called from within the constructor to initialize the form.
+     */
+    @SuppressWarnings("unchecked")
+private void initComponents() {
+ 
+    /**
+     * Creates new form DashboardAdmin
+     */
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -137,7 +140,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         jButton4.setText("DELETE");
         jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 140, -1, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 600, 170));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 630, 310));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
