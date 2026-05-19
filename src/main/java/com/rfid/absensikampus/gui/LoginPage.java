@@ -4,6 +4,7 @@
  */
 package com.rfid.absensikampus.gui;
 
+import java.awt.HeadlessException;
 import javax.swing.JFrame;
 
 /**
@@ -105,8 +106,11 @@ try {
     String password = new String(txtPassword.getPassword());
 
     // 2. Hubungkan ke database menggunakan MongoManager
-    com.mongodb.client.MongoDatabase db = com.mycompany.absenrfid.objects.MongoManager.getDatabase();
-    com.mongodb.client.MongoCollection<org.bson.Document> col = db.getCollection("Admin");
+   com.mongodb.client.MongoDatabase db =
+    com.rfid.absensikampus.MongoManager.getDatabase();
+
+com.mongodb.client.MongoCollection<org.bson.Document> col =
+    db.getCollection("Admin");
 
     // 3. Cari data yang cocok
     org.bson.Document query = new org.bson.Document("username", username)
@@ -115,16 +119,13 @@ try {
 
     // 4. Cek hasil pencarian
     if (user != null) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Login Berhasil!");
-        
-        // Membuka halaman Monitoring
-        new Monitoring().setVisible(true); 
-        this.dispose(); 
-    } else {
-        javax.swing.JOptionPane.showMessageDialog(this, "Username atau Password Salah!");
-    }
+    javax.swing.JOptionPane.showMessageDialog(this, "Login Berhasil!");
+    
+} else {
+    javax.swing.JOptionPane.showMessageDialog(this, "Username atau Password Salah!");
+}
 
-} catch (java.lang.Exception e) {
+} catch (HeadlessException e) {
     javax.swing.JOptionPane.showMessageDialog(this, "Terjadi Kesalahan: " + e.getMessage());
 }        // TODO add your handling code here:
     }//GEN-LAST:event_btnLoginActionPerformed
