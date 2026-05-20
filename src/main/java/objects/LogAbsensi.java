@@ -3,37 +3,35 @@ package objects;
 import java.time.LocalDateTime;
 
 public class LogAbsensi {
+
     private String idLog;
-    private String uidRfid;
-    private String idKaryawan;
+    private String uid;
+    private String nim;
     private String namaLengkap;
-    private String divisi;
-    private String jabatan;
+    private String mataKuliah;
     private LocalDateTime waktuTap;
     private String status;
 
+    // Constructor kosong
     public LogAbsensi() {
-        //
+
     }
 
-    public LogAbsensi(String idLog, String uidRfid, String idKaryawana, String namaLengkap, String divisi, String jabatan, LocalDateTime waktuTap, String status) {
+    // Constructor isi
+    public LogAbsensi(String idLog, String uid, String nim,
+            String namaLengkap, String mataKuliah,
+            LocalDateTime waktuTap, String status) {
+
         this.idLog = idLog;
-        this.uidRfid = uidRfid;
-        this.idKaryawan = idKaryawana;
+        this.uid = uid;
+        this.nim = nim;
         this.namaLengkap = namaLengkap;
-        this.divisi = divisi;
-        this.jabatan = jabatan;
+        this.mataKuliah = mataKuliah;
         this.waktuTap = waktuTap;
         this.status = status;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    // Getter dan Setter
 
     public String getIdLog() {
         return idLog;
@@ -43,44 +41,36 @@ public class LogAbsensi {
         this.idLog = idLog;
     }
 
-    public String getUidRfid() {
-        return uidRfid;
+    public String getUid() {
+        return uid;
     }
 
-    public void setUidRfid(String uidRfid) {
-        this.uidRfid = uidRfid;
-    }
-    
-    public String getidKaryawan() {
-        return idKaryawan;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
-    public void setidKaryawan(String uidRfid) {
-        this.idKaryawan = uidRfid;
+    public String getNim() {
+        return nim;
     }
-    
-    public String getnamaLengkap() {
+
+    public void setNim(String nim) {
+        this.nim = nim;
+    }
+
+    public String getNamaLengkap() {
         return namaLengkap;
     }
-    
-    public void setnamaLengkap(String namaLengkap) {
+
+    public void setNamaLengkap(String namaLengkap) {
         this.namaLengkap = namaLengkap;
     }
-    
-    public String getDivisi() {
-        return divisi;
+
+    public String getMataKuliah() {
+        return mataKuliah;
     }
 
-    public void setdivisi(String divisi) {
-        this.divisi = divisi;
-    }
-    
-    public String getjabatan() {
-        return jabatan;
-    }
-
-    public void setjabatan(String jabatan) {
-        this.jabatan = jabatan;
+    public void setMataKuliah(String mataKuliah) {
+        this.mataKuliah = mataKuliah;
     }
 
     public LocalDateTime getWaktuTap() {
@@ -90,8 +80,12 @@ public class LogAbsensi {
     public void setWaktuTap(LocalDateTime waktuTap) {
         this.waktuTap = waktuTap;
     }
-    
-    
-    
-    
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
