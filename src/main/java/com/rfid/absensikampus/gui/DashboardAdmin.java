@@ -10,6 +10,8 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     public DashboardAdmin() {
         initComponents();
+        
+        showData("");
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,18 +32,19 @@ public class DashboardAdmin extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        UID = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        NIM = new javax.swing.JTextField();
+        NAMALKP = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        MK = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        Save = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        update = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        data = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -63,8 +66,8 @@ public class DashboardAdmin extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTextField1.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel2.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 160, -1));
+        UID.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel2.add(UID, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 160, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 51, 255));
@@ -76,81 +79,119 @@ public class DashboardAdmin extends javax.swing.JFrame {
         jLabel4.setText("NIM");
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 50, -1));
 
-        jTextField2.setBackground(new java.awt.Color(204, 204, 204));
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        NIM.setBackground(new java.awt.Color(204, 204, 204));
+        NIM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                NIMActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 160, -1));
+        jPanel2.add(NIM, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 160, -1));
 
-        jTextField3.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel2.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 160, -1));
+        NAMALKP.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel2.add(NAMALKP, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 160, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(51, 51, 255));
         jLabel5.setText("NAMA LENGKAP");
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, -1, -1));
 
-        jComboBox1.setBackground(new java.awt.Color(204, 204, 204));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PEMOGRAMAN KOMPUTER", "SISTEM BASIS DATA", "JARINGAN KOMPUTER", "DATA MINING" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        MK.setBackground(new java.awt.Color(204, 204, 204));
+        MK.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PEMOGRAMAN KOMPUTER", "SISTEM BASIS DATA", "JARINGAN KOMPUTER", "DATA MINING" }));
+        MK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                MKActionPerformed(evt);
             }
         });
-        jPanel2.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 20, -1, -1));
+        jPanel2.add(MK, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 20, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(51, 51, 255));
         jLabel6.setText("MATA KULIAH");
         jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, -1, -1));
 
-        jButton1.setBackground(new java.awt.Color(51, 51, 255));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("SAVE");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        Save.setBackground(new java.awt.Color(51, 51, 255));
+        Save.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        Save.setForeground(new java.awt.Color(255, 255, 255));
+        Save.setText("SAVE");
+        Save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                SaveActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 140, -1, -1));
+        jPanel2.add(Save, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 140, -1, -1));
 
         jButton2.setBackground(new java.awt.Color(51, 51, 255));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("REFRESH");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 140, -1, -1));
 
-        jButton3.setBackground(new java.awt.Color(51, 51, 255));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("UPDATE");
-        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 140, -1, -1));
+        update.setBackground(new java.awt.Color(51, 51, 255));
+        update.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        update.setForeground(new java.awt.Color(255, 255, 255));
+        update.setText("UPDATE");
+        update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateActionPerformed(evt);
+            }
+        });
+        jPanel2.add(update, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 140, -1, -1));
 
         jButton4.setBackground(new java.awt.Color(255, 0, 0));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("DELETE");
         jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 140, -1, -1));
+        jPanel2.add(data, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 630, 30));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 630, 310));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 630, 420));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void NIMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NIMActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_NIMActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void MKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MKActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_MKActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        Mahasiswa K = new Mahasiswa();
+        K.setUid(UID.getText());
+        K.setNim(NIM.getText()); 
+        K.setNamaLengkap(NAMALKP.getText());
+        K.setMataKuliah(MK.getSelectedItem().toString()); 
+        MahasiswaServices service = new MahasiswaServices();
+        System.out.println("SAVE DIKLIK");
+        service.tambahMahasiswa(K);
+        System.out.println("DATA DIKIRIM");
+        showData("");
+    }//GEN-LAST:event_SaveActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        refresAll();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
+        // TODO add your handling code here:
+        Mahasiswa K = new Mahasiswa();
+        K.setUid(UID.getText());
+        K.setNim(NIM.getText()); 
+        K.setNamaLengkap(NAMALKP.getText());
+        K.setMataKuliah(MK.getSelectedItem().toString()); 
+        MahasiswaServices service = new MahasiswaServices();
+        service.tambahMahasiswa(K);
+        refresAll();
+    }//GEN-LAST:event_updateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -178,11 +219,14 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    public static javax.swing.JComboBox<String> MK;
+    public static javax.swing.JTextField NAMALKP;
+    public static javax.swing.JTextField NIM;
+    public static javax.swing.JButton Save;
+    public static javax.swing.JTextField UID;
+    private static javax.swing.JPanel data;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -191,8 +235,50 @@ public class DashboardAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    public static javax.swing.JButton update;
     // End of variables declaration//GEN-END:variables
+
+    public static void showData(String key) {
+        MahasiswaServices K = new MahasiswaServices();
+        K.tampilMahasiswa(data, key);
+    }
+
+    private void refresAll() {
+        showData("");
+        UID.setText("");
+        NIM.setText("");
+        NAMALKP.setText("");
+        MK.setSelectedIndex(0); 
+        update.setEnabled(false); 
+        UID.requestFocus();
+    }
+
+    public static class uid {
+
+        public static void setText(String uid) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        public uid() {
+        }
+    }
+
+    public static class MK {
+
+        public static void setSelectedItem(String mataKuliah) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        public MK() {
+        }
+    }
+
+    public static class Update {
+
+        public Update() {
+        }
+    }
+    
 }
+
+

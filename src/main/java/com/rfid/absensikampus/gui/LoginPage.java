@@ -120,7 +120,14 @@ com.mongodb.client.MongoCollection<org.bson.Document> col =
     // 4. Cek hasil pencarian
     if (user != null) {
     javax.swing.JOptionPane.showMessageDialog(this, "Login Berhasil!");
-    
+
+    // Membuka DashboardAdmin
+    DashboardAdmin dashboard = new DashboardAdmin();
+    dashboard.setVisible(true);
+
+    // Menutup halaman login
+    this.dispose();
+
 } else {
     javax.swing.JOptionPane.showMessageDialog(this, "Username atau Password Salah!");
 }

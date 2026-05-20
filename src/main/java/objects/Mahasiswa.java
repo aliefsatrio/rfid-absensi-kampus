@@ -7,6 +7,17 @@ public class Mahasiswa {
     private String namaLengkap;
     private String mataKuliah;
 
+    public Mahasiswa(String uid, String nim, String namaLengkap, String mataKuliah) {
+        this.uid = uid;
+        this.nim = nim;
+        this.namaLengkap = namaLengkap;
+        this.mataKuliah = mataKuliah;
+    }
+
+    public Mahasiswa() {
+        
+    }
+
     // Setter
     public void setUid(String uid) {
         this.uid = uid;
@@ -39,5 +50,9 @@ public class Mahasiswa {
 
     public String getMataKuliah() {
         return mataKuliah;
+    }
+
+    public String getId() {
+        return uid;
     }
 }
