@@ -147,7 +147,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("DELETE");
         jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 140, -1, -1));
-        jPanel2.add(data, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 630, 30));
+        jPanel2.add(data, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 630, 240));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 630, 420));
 
@@ -163,17 +163,38 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_MKActionPerformed
 
     private void SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveActionPerformed
-        // TODO add your handling code here:
-        Mahasiswa K = new Mahasiswa();
-        K.setUid(UID.getText());
-        K.setNim(NIM.getText()); 
-        K.setNamaLengkap(NAMALKP.getText());
-        K.setMataKuliah(MK.getSelectedItem().toString()); 
-        MahasiswaServices service = new MahasiswaServices();
-        System.out.println("SAVE DIKLIK");
-        service.tambahMahasiswa(K);
-        System.out.println("DATA DIKIRIM");
-        showData("");
+// TODO add your handling code here:
+try {
+    Mahasiswa K = new Mahasiswa();
+    K.setUid(UID.getText());
+    K.setNim(NIM.getText()); 
+    K.setNamaLengkap(NAMALKP.getText());
+    K.setMataKuliah(MK.getSelectedItem().toString()); 
+    
+    MahasiswaServices service = new MahasiswaServices();
+    System.out.println("SAVE DIKLIK");
+    
+    // Proses krusial yang rawan terjadi error (DB error, query salah, dll)
+    service.tambahMahasiswa(K);
+    
+    System.out.println("DATA DIKIRIM");
+    
+    // Refresh tabel/tampilan setelah berhasil simpan
+    showData(""); 
+    
+    // Opsional: Beri tahu user kalau sukses
+    javax.swing.JOptionPane.showMessageDialog(this, "Data berhasil disimpan!");
+
+} catch (Exception e) {
+    // Menampilkan pesan error di konsol
+    System.err.println("Gagal menyimpan data! Terjadi error:");
+    
+    // Ini bagian paling penting: mencetak baris kode mana yang rusak dan apa penyebabnya
+    e.printStackTrace(); 
+    
+    // Opsional: Menampilkan pesan error ke user lewat popup
+    javax.swing.JOptionPane.showMessageDialog(this, "Gagal menyimpan data: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+}
     }//GEN-LAST:event_SaveActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -182,15 +203,39 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
-        // TODO add your handling code here:
+                                      
+    try {
+        // 1. Ambil data dari form GUI dan masukkan ke objek Mahasiswa
         Mahasiswa K = new Mahasiswa();
         K.setUid(UID.getText());
         K.setNim(NIM.getText()); 
         K.setNamaLengkap(NAMALKP.getText());
         K.setMataKuliah(MK.getSelectedItem().toString()); 
+        
+        // 2. Panggil service database
         MahasiswaServices service = new MahasiswaServices();
-        service.tambahMahasiswa(K);
+        
+        System.out.println("UPDATE DIKLIK");
+        
+        // 3. PANGGIL FUNGSI UPDATE (Ganti nama fungsi ini sesuai yang ada di MahasiswaServices Anda)
+        service.updateMahasiswa(K); 
+        
+        System.out.println("DATA DIUPDATE");
+        
+        // 4. Bersihkan form dan refresh tabel cetak otomatis melalui refresAll()
         refresAll();
+        
+        // 5. Tampilkan popup sukses ke pengguna
+        javax.swing.JOptionPane.showMessageDialog(this, "Data mahasiswa berhasil diperbarui!");
+        
+    } catch (Exception e) {
+        // Jika terjadi eror (misal koneksi database mati atau error kode bson)
+        System.err.println("Gagal mengupdate data! Terjadi error:");
+        e.printStackTrace(); // Mencetak baris error di konsol NetBeans
+        
+        // Menampilkan pesan error berupa popup
+        javax.swing.JOptionPane.showMessageDialog(this, "Gagal memperbarui data: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_updateActionPerformed
 
     /**

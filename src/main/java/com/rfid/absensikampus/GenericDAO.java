@@ -26,7 +26,7 @@ public class GenericDAO<T> implements BaseDAO<T> {
 
     @Override
     public void update(Bson filter, T entity) {
-        collection.replaceOne(filter, entity);
+        collection.updateOne(filter, new org.bson.Document("$set", entity));
     }
 
     @Override

@@ -1,12 +1,15 @@
 package objects;
 
+import org.bson.types.ObjectId;
+
 public class Mahasiswa {
 
+    private ObjectId id; // Ubah dari String ke ObjectId
     private String uid;
     private String nim;
     private String namaLengkap;
     private String mataKuliah;
-
+    
     public Mahasiswa(String uid, String nim, String namaLengkap, String mataKuliah) {
         this.uid = uid;
         this.nim = nim;
@@ -18,6 +21,13 @@ public class Mahasiswa {
         
     }
 
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
     // Setter
     public void setUid(String uid) {
         this.uid = uid;
@@ -52,7 +62,5 @@ public class Mahasiswa {
         return mataKuliah;
     }
 
-    public String getId() {
-        return uid;
-    }
+
 }
