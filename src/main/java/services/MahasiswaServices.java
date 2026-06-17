@@ -1,7 +1,7 @@
 package services;
 
 import com.rfid.absensikampus.gui.DashboardAdmin;
-import com.rfid.absensikampus.GenericDAO;
+import dao.GenericDAO;
 import objects.Mahasiswa;
 import com.mongodb.client.model.Filters;
 import java.awt.BorderLayout;

@@ -6,6 +6,7 @@ package com.rfid.absensikampus.gui;
 
 import java.awt.HeadlessException;
 import javax.swing.JFrame;
+import services.AuthService;
 
 /**
  *
@@ -99,42 +100,33 @@ public class LoginPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-try {
-    // 1. Ambil input dari textfield
+
     String username = txtUsername.getText();
-    // Mengambil password dari JPasswordField
     String password = new String(txtPassword.getPassword());
 
-    // 2. Hubungkan ke database menggunakan MongoManager
-   com.mongodb.client.MongoDatabase db =
-    com.rfid.absensikampus.MongoManager.getDatabase();
+    AuthService auth = new AuthService();
 
-com.mongodb.client.MongoCollection<org.bson.Document> col =
-    db.getCollection("Admin");
+    if (auth.login(username, password)) {
 
-    // 3. Cari data yang cocok
-    org.bson.Document query = new org.bson.Document("username", username)
-                                    .append("password", password);
-    org.bson.Document user = col.find(query).first();
+        javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "Login Berhasil!"
+        );
 
-    // 4. Cek hasil pencarian
-    if (user != null) {
-    javax.swing.JOptionPane.showMessageDialog(this, "Login Berhasil!");
+        DashboardAdmin dashboard =
+                new DashboardAdmin();
 
-    // Membuka DashboardAdmin
-    DashboardAdmin dashboard = new DashboardAdmin();
-    dashboard.setVisible(true);
+        dashboard.setVisible(true);
 
-    // Menutup halaman login
-    this.dispose();
+        this.dispose();
 
-} else {
-    javax.swing.JOptionPane.showMessageDialog(this, "Username atau Password Salah!");
-}
+    } else {
 
-} catch (HeadlessException e) {
-    javax.swing.JOptionPane.showMessageDialog(this, "Terjadi Kesalahan: " + e.getMessage());
-}        // TODO add your handling code here:
+        javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "Username atau Password Salah!"
+        );
+    }        // TODO add your handling code here:
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
