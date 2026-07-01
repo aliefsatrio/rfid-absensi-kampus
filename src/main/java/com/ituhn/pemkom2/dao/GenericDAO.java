@@ -1,5 +1,6 @@
-package com.rfid.absensikampus;
+package com.ituhn.pemkom2.dao;
 
+import com.rfid.absensikampus.*;
 import com.mongodb.client.MongoCollection;
 import org.bson.conversions.Bson;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class GenericDAO<T> implements BaseDAO<T> {
 
     @Override
     public void update(Bson filter, T entity) {
-        collection.updateOne(filter, new org.bson.Document("$set", entity));
+        collection.replaceOne(filter, entity);
     }
 
     @Override
