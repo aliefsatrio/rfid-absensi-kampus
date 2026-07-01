@@ -1,4 +1,6 @@
-package services;
+package com.ituhn.pemkom2.util;
+
+import services.AuthService;
 
 public class UserInjector {
 
@@ -6,11 +8,7 @@ public class UserInjector {
 
         AuthService userService = new AuthService();
 
-        userService.registerUser(
-                "Yusuf Maulana",
-                "admin",
-                "123"
-        );
+        
 
         System.out.println("User berhasil ditambahkan!");
     }
