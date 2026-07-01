@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import org.bson.types.ObjectId;
 
 public class User {
+
     private ObjectId id;
     private String fullname;
     private String username;

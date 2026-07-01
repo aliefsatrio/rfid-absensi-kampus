@@ -1,16 +1,11 @@
 package dao;
 
-import dao.BaseDAO;
-import util.MongoManager;
+import com.ituhn.pemkom2.util.MongoManager;
 import com.mongodb.client.MongoCollection;
 import org.bson.conversions.Bson;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Implementasi Generic DAO untuk MongoDB yang efisien dan reusable.
- * @param <T>
- */
 public class GenericDAO<T> implements BaseDAO<T> {
     private final MongoCollection<T> collection;
     private final Class<T> clazz;
@@ -28,7 +23,7 @@ public class GenericDAO<T> implements BaseDAO<T> {
 
     @Override
     public void update(Bson filter, T entity) {
-        collection.updateOne(filter, new org.bson.Document("$set", entity));
+        collection.replaceOne(filter, entity);
     }
 
     @Override
