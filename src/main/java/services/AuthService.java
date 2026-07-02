@@ -44,7 +44,7 @@ public class AuthService {
     /**
      * LOGIN MAHASISWA
      */
-    public Mahasiswa loginMahasiswa(String username,
+    public Mahasiswa loginDosen(String username,
                                     String password) {
 
         return mahasiswaDAO.findOne(
@@ -76,7 +76,7 @@ public class AuthService {
     /**
      * REGISTER MAHASISWA
      */
-    public void registerMahasiswa(Mahasiswa mahasiswa) {
+    public void registerDosen(Mahasiswa mahasiswa) {
 
         mahasiswaDAO.save(mahasiswa);
     }
