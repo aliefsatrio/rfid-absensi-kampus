@@ -1,28 +1,31 @@
 package objects;
 
 import java.time.LocalDateTime;
+import org.bson.types.ObjectId;
 
 public class LogAbsensi {
 
-    private String idLog;
+    private ObjectId id;
+
     private String uid;
     private String nim;
     private String namaLengkap;
     private String mataKuliah;
+
     private LocalDateTime waktuTap;
+
     private String status;
 
-    // Constructor kosong
     public LogAbsensi() {
-
     }
 
-    // Constructor isi
-    public LogAbsensi(String idLog, String uid, String nim,
-            String namaLengkap, String mataKuliah,
-            LocalDateTime waktuTap, String status) {
+    public LogAbsensi(String uid,
+                      String nim,
+                      String namaLengkap,
+                      String mataKuliah,
+                      LocalDateTime waktuTap,
+                      String status) {
 
-        this.idLog = idLog;
         this.uid = uid;
         this.nim = nim;
         this.namaLengkap = namaLengkap;
@@ -31,14 +34,12 @@ public class LogAbsensi {
         this.status = status;
     }
 
-    // Getter dan Setter
-
-    public String getIdLog() {
-        return idLog;
+    public ObjectId getId() {
+        return id;
     }
 
-    public void setIdLog(String idLog) {
-        this.idLog = idLog;
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 
     public String getUid() {

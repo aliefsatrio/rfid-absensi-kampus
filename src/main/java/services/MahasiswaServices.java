@@ -43,9 +43,24 @@ public class MahasiswaServices {
         DAO.save(MahasiswaBaru); // Memanggil insertOne melalui GenericDAO [3]
     }
 
-    public void tambahMahasiswa(String uid, String nim, String namaLengkap, String mataKuliah) {
-        Mahasiswa MahasiswaBaru = new  Mahasiswa (uid, nim, namaLengkap, mataKuliah );
-        DAO.save(MahasiswaBaru); // Memanggil insertOne melalui GenericDAO [3]
+    public void tambahMahasiswa(String uid,
+                            String nim,
+                            String namaLengkap,
+                            String mataKuliah,
+                            String username,
+                            String password) {
+
+    Mahasiswa mahasiswaBaru =
+            new Mahasiswa(
+                    uid,
+                    nim,
+                    namaLengkap,
+                    mataKuliah,
+                    username,
+                    password
+            );
+
+    DAO.save(mahasiswaBaru);
     }
 
     /**
@@ -237,5 +252,19 @@ public class MahasiswaServices {
 
     public void tambahMahasiswa(Mahasiswa K) {
         DAO.save(K);
+    }
+    
+    public Mahasiswa findByUid(String uid){
+
+        return DAO.findOne(
+            Filters.eq("uid", uid)
+        );
+    }
+    
+    public Mahasiswa findByUsername(String username){
+
+        return DAO.findOne(
+                Filters.eq("username", username)
+        );
     }
 }

@@ -13,6 +13,6 @@ import services.AuthService;
 public class UserInjector {
     public static void main(String[] args) {
         AuthService userService = new AuthService();
-        userService.registerUser("Admin", "uhn", "123"); 
+        userService.registerAdmin("Admin", "uhn", "123"); 
     }
 }

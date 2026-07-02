@@ -7,6 +7,8 @@ package com.rfid.absensikampus.gui;
 import java.awt.HeadlessException;
 import javax.swing.JFrame;
 import services.AuthService;
+import javax.swing.JOptionPane;
+import objects.Mahasiswa;
 
 /**
  *
@@ -14,6 +16,7 @@ import services.AuthService;
  */
 public class LoginPage extends javax.swing.JFrame {
     
+    private String role = "ADMIN";
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginPage.class.getName());
 
     /**
@@ -87,10 +90,20 @@ public class LoginPage extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setText("MAHASISWA");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        jButton1.setText("Dosen");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 90, -1));
 
-        jButton2.setText("DOSEN");
+        jButton2.setText("ADMIN");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 10, 100, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 260, 260, 40));
@@ -100,34 +113,69 @@ public class LoginPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        // TODO add your handling code here:
+        String username = txtUsername.getText();
+        String password = String.valueOf(txtPassword.getPassword());
 
-    String username = txtUsername.getText();
-    String password = new String(txtPassword.getPassword());
+        AuthService auth = new AuthService();
 
-    AuthService auth = new AuthService();
+        if (role.equals("ADMIN")) {
 
-    if (auth.login(username, password)) {
+        if (auth.loginAdmin(username, password)) {
 
-        javax.swing.JOptionPane.showMessageDialog(
-                this,
-                "Login Berhasil!"
-        );
+                DashboardAdmin dashboard =
+                        new DashboardAdmin();
 
-        DashboardAdmin dashboard =
-                new DashboardAdmin();
+                dashboard.setLocationRelativeTo(null);
+                dashboard.setVisible(true);
 
-        dashboard.setVisible(true);
+                dispose();
 
-        this.dispose();
+        } else {
 
-    } else {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Username atau Password Admin salah!"
+                );
 
-        javax.swing.JOptionPane.showMessageDialog(
-                this,
-                "Username atau Password Salah!"
-        );
-    }        // TODO add your handling code here:
+            }
+
+        } else {
+
+            Mahasiswa mahasiswa =
+                    auth.loginDosen(username,password);
+
+            if(mahasiswa != null){
+
+                DashboardPage dashboard =
+                        new DashboardPage(mahasiswa);
+
+                dashboard.setLocationRelativeTo(null);
+                dashboard.setVisible(true);
+
+                dispose();
+
+            }else{
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Username atau Password Mahasiswa salah!"
+                );
+
+            }
+
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        role = "ADMIN";
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        role = "MAHASISWA";
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

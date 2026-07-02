@@ -4,19 +4,40 @@
  */
 package com.rfid.absensikampus.gui;
 
+import services.DigitalClockService;
+import javax.swing.SwingUtilities;
+import services.SerialService;
+import services.MahasiswaServices;
+import services.LogAbsensiService;
+import objects.Mahasiswa;
+import java.awt.Color;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Simus
  */
-public class DasboardPage extends javax.swing.JFrame {
+
+public class DashboardPage extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DasboardPage.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DashboardPage.class.getName());
+    private final SerialService serialService = SerialService.getInstance();
+    private final MahasiswaServices mahasiswaService = new MahasiswaServices();
+    private final LogAbsensiService logService = new LogAbsensiService();
+
+    private String lastUID = "";
+    private long lastScanTime = 0;
 
     /**
      * Creates new form DasboardPage
      */
-    public DasboardPage() {
+    public DashboardPage(Mahasiswa mahasiswa) {
         initComponents();
+        setLocationRelativeTo(null);
+        initClock();
+        initRFID();
+        this.loginMahasiswa = mahasiswa;
+        tampilDataMahasiswa();
     }
 
     /**
@@ -29,26 +50,29 @@ public class DasboardPage extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel7 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
+        btnScan = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        btnReset = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         NIM = new javax.swing.JLabel();
-        programstudi = new javax.swing.JLabel();
-        nim_angka = new javax.swing.JLabel();
-        Jurusan = new javax.swing.JLabel();
+        matakuliah = new javax.swing.JLabel();
+        lblNim = new javax.swing.JLabel();
+        lblMataKuliah = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        lblNama = new javax.swing.JLabel();
+        lblJam = new javax.swing.JLabel();
+        lblTanggal = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        lblStatus = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnMenuScan = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
 
@@ -58,11 +82,24 @@ public class DasboardPage extends javax.swing.JFrame {
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton5.setBackground(new java.awt.Color(0, 51, 255));
-        jPanel7.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 70, 47));
+        btnScan.setBackground(new java.awt.Color(0, 51, 255));
+        btnScan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnScanActionPerformed(evt);
+            }
+        });
+        jPanel7.add(btnScan, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 70, 47));
 
         jLabel2.setText("Scan Absensi");
         jPanel7.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 60, -1, -1));
+
+        btnReset.setText("Reset Absensi (Testing)");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
+        jPanel7.add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 80, 160, 20));
 
         getContentPane().add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 520, 100));
 
@@ -77,21 +114,21 @@ public class DasboardPage extends javax.swing.JFrame {
         NIM.setText("NIM");
         jPanel3.add(NIM, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 100, -1));
 
-        programstudi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        programstudi.setForeground(new java.awt.Color(255, 255, 255));
-        programstudi.setText("Program Studi");
-        jPanel3.add(programstudi, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, -1, 20));
+        matakuliah.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        matakuliah.setForeground(new java.awt.Color(255, 255, 255));
+        matakuliah.setText("Mata Kuliah");
+        jPanel3.add(matakuliah, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, -1, 20));
 
-        nim_angka.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        nim_angka.setForeground(new java.awt.Color(255, 255, 255));
-        nim_angka.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        nim_angka.setText("24090077");
-        jPanel3.add(nim_angka, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 0, -1, -1));
+        lblNim.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblNim.setForeground(new java.awt.Color(255, 255, 255));
+        lblNim.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblNim.setText("24090077");
+        jPanel3.add(lblNim, new org.netbeans.lib.awtextra.AbsoluteConstraints(409, 0, 90, 20));
 
-        Jurusan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        Jurusan.setForeground(new java.awt.Color(255, 255, 255));
-        Jurusan.setText("Teknik Informatika");
-        jPanel3.add(Jurusan, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 30, -1, -1));
+        lblMataKuliah.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblMataKuliah.setForeground(new java.awt.Color(255, 255, 255));
+        lblMataKuliah.setText("Teknik Informatika");
+        jPanel3.add(lblMataKuliah, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 30, 160, -1));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 520, 60));
 
@@ -100,10 +137,18 @@ public class DasboardPage extends javax.swing.JFrame {
         jLabel5.setText("Selamat Datang");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Arya Ahmad");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, -1, -1));
+        lblNama.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblNama.setForeground(new java.awt.Color(255, 255, 255));
+        lblNama.setText("Arya Ahmad");
+        jPanel1.add(lblNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, -1, -1));
+
+        lblJam.setForeground(new java.awt.Color(255, 255, 255));
+        lblJam.setText("08:00");
+        jPanel1.add(lblJam, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 30, 60, 20));
+
+        lblTanggal.setForeground(new java.awt.Color(255, 255, 255));
+        lblTanggal.setText("Kamis, 2 Juli 2026");
+        jPanel1.add(lblTanggal, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, -1, 20));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 180));
 
@@ -121,11 +166,11 @@ public class DasboardPage extends javax.swing.JFrame {
         jLabel8.setText("Status");
         jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 50, -1));
 
-        jLabel9.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(51, 204, 0));
-        jLabel9.setText("Hadir");
-        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 60, -1));
+        lblStatus.setBackground(new java.awt.Color(0, 0, 0));
+        lblStatus.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblStatus.setForeground(new java.awt.Color(51, 204, 0));
+        lblStatus.setText("Hadir");
+        jPanel2.add(lblStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 60, -1));
 
         jPanel4.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 190, 40));
 
@@ -148,15 +193,20 @@ public class DasboardPage extends javax.swing.JFrame {
         jButton1.setText("home");
         jPanel6.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, -1, 30));
 
-        jButton2.setText("Scan");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnMenuScan.setText("Scan");
+        btnMenuScan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnMenuScanActionPerformed(evt);
             }
         });
-        jPanel6.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, -1, 30));
+        jPanel6.add(btnMenuScan, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, -1, 30));
 
         jButton3.setText("Riwayat");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         jPanel6.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, 30));
 
         jButton4.setText("Profile");
@@ -167,50 +217,151 @@ public class DasboardPage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnMenuScanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuScanActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnMenuScanActionPerformed
+
+    private void btnScanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnScanActionPerformed
+        // TODO add your handling code here:
+        String uid = JOptionPane.showInputDialog(
+                this,
+                "Tempelkan UID RFID",
+                "Simulasi RFID",
+                JOptionPane.PLAIN_MESSAGE
+        );
+
+        if (uid != null && !uid.trim().isEmpty()) {
+
+            processUID(uid.trim());
+
+        }
+    }//GEN-LAST:event_btnScanActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        RiwayatPresensi page =
+                new RiwayatPresensi(loginMahasiswa);
+
+        page.setLocationRelativeTo(null);
+
+        page.setVisible(true);
+
+        dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        // TODO add your handling code here:
+        int pilih = JOptionPane.showConfirmDialog(
+                this,
+                "Hapus seluruh data absensi?",
+                "Reset Absensi",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (pilih == JOptionPane.YES_OPTION) {
+
+            long jumlah = logService.resetSemuaAbsensi();
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    jumlah + " data absensi berhasil dihapus."
+            );
+
+        }
+    }//GEN-LAST:event_btnResetActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void initClock() {
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new DasboardPage().setVisible(true));
+        DigitalClockService clock =
+                new DigitalClockService(
+                        lblTanggal,
+                        lblJam
+                );
+
+        clock.getThread().start();
     }
+    
+    private void initRFID() {
+
+        serialService.addHandler(this::processUID);
+
+    }
+    
+    private void processUID(String uid) {
+
+        Mahasiswa mahasiswa =
+                mahasiswaService.findByUid(uid);
+
+        if (mahasiswa == null) {
+
+            lblNama.setText("-");
+            lblNim.setText("-");
+            lblMataKuliah.setText("-");
+            lblStatus.setText("KARTU TIDAK TERDAFTAR");
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "UID tidak ditemukan!"
+            );
+
+            return;
+
+        }
+
+        lblNama.setText(mahasiswa.getNamaLengkap());
+        lblNim.setText(mahasiswa.getNim());
+        lblMataKuliah.setText(mahasiswa.getMataKuliah());
+        
+        boolean berhasil = logService.simpanAbsensi(mahasiswa);
+
+    if (berhasil) {
+
+        lblStatus.setForeground(new Color(0, 153, 0));
+        lblStatus.setText("ABSENSI BERHASIL");
+
+    } else {
+
+        lblStatus.setForeground(Color.ORANGE);
+        lblStatus.setText("SUDAH ABSEN HARI INI");
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Mahasiswa sudah melakukan absensi hari ini."
+        );
+    }
+        
+    }
+    
+    private void tampilDataMahasiswa(){
+
+        lblNama.setText(loginMahasiswa.getNamaLengkap());
+
+        lblNim.setText(loginMahasiswa.getNim());
+
+        lblMataKuliah.setText(
+                loginMahasiswa.getMataKuliah()
+        );
+
+    }
+    
+    private Mahasiswa loginMahasiswa;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Jurusan;
     private javax.swing.JLabel NIM;
+    private javax.swing.JButton btnMenuScan;
+    private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnScan;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -218,7 +369,12 @@ public class DasboardPage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JLabel nim_angka;
-    private javax.swing.JLabel programstudi;
+    private javax.swing.JLabel lblJam;
+    private javax.swing.JLabel lblMataKuliah;
+    private javax.swing.JLabel lblNama;
+    private javax.swing.JLabel lblNim;
+    private javax.swing.JLabel lblStatus;
+    private javax.swing.JLabel lblTanggal;
+    private javax.swing.JLabel matakuliah;
     // End of variables declaration//GEN-END:variables
 }

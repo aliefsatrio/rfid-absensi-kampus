@@ -45,4 +45,10 @@ public class GenericDAO<T> implements BaseDAO<T> {
     public List<T> findMany(Bson filter) {
         return collection.find(filter).into(new ArrayList<>());
     }
+    
+    public long deleteAll() {
+    return collection.deleteMany(new org.bson.Document())
+            .getDeletedCount();
+
+    }
 }

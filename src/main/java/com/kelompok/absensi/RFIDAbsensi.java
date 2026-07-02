@@ -1,16 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
 package com.kelompok.absensi;
 
-/**
- *
- * @author bolem
- */
+import javax.swing.SwingUtilities;
+import com.rfid.absensikampus.gui.LoginPage;
+
 public class RFIDAbsensi {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+
+        SwingUtilities.invokeLater(() -> {
+            LoginPage login = new LoginPage();
+            login.setLocationRelativeTo(null);
+            login.setVisible(true);
+        });
+
     }
 }

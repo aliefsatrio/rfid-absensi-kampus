@@ -3,32 +3,82 @@ package services;
 import com.mongodb.client.model.Filters;
 import dao.GenericDAO;
 import java.time.LocalDateTime;
+import objects.Mahasiswa;
 import objects.User;
-import util.SecurityUtils;
+import org.bson.conversions.Bson;
 
 public class AuthService {
 
-    private final GenericDAO<User> userDAO = new GenericDAO<>("Admin", User.class);
+    private final GenericDAO<User> adminDAO =
+            new GenericDAO<>("Admin", User.class);
 
-    public boolean login(String username, String plainPassword) {
-        String hashedInput = SecurityUtils.getHash(plainPassword, SecurityUtils.SHA_256);
+    private final GenericDAO<Mahasiswa> mahasiswaDAO =
+            new GenericDAO<>("mahasiswa", Mahasiswa.class);
 
-        User user = userDAO.findOne(Filters.and(
-                Filters.eq("username", username),
-                Filters.eq("password", hashedInput)
-        ));
+    /**
+     * LOGIN ADMIN
+     */
+    public boolean loginAdmin(String username, String password) {
 
-        if (user != null) {
-            user.setLastLogin(LocalDateTime.now());
-            userDAO.update(Filters.eq("username", username), user);
+        User admin = adminDAO.findOne(
+                Filters.and(
+                        Filters.eq("username", username),
+                        Filters.eq("password", password)
+                )
+        );
+
+        if (admin != null) {
+
+            admin.setLastLogin(LocalDateTime.now());
+
+            Bson filter = Filters.eq("username", username);
+
+            adminDAO.update(filter, admin);
+
             return true;
         }
+
         return false;
     }
 
-    public void registerUser(String fullname, String username, String plainPassword) {
-        String hashedPassword = SecurityUtils.getHash(plainPassword, SecurityUtils.SHA_256);
-        User newUser = new User(fullname, username, hashedPassword, null);
-        userDAO.save(newUser);
+    /**
+     * LOGIN MAHASISWA
+     */
+    public Mahasiswa loginMahasiswa(String username,
+                                    String password) {
+
+        return mahasiswaDAO.findOne(
+                Filters.and(
+                        Filters.eq("username", username),
+                        Filters.eq("password", password)
+                )
+        );
+
     }
+
+    /**
+     * REGISTER ADMIN
+     */
+    public void registerAdmin(String fullname,
+                              String username,
+                              String password) {
+
+        User admin = new User(
+                fullname,
+                username,
+                password,
+                null
+        );
+
+        adminDAO.save(admin);
+    }
+
+    /**
+     * REGISTER MAHASISWA
+     */
+    public void registerMahasiswa(Mahasiswa mahasiswa) {
+
+        mahasiswaDAO.save(mahasiswa);
+    }
+
 }
