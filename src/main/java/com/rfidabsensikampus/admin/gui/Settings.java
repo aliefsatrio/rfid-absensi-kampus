@@ -93,11 +93,11 @@ public class Settings extends javax.swing.JPanel implements I18nService.I18nChan
     jPanel7Layout.setHorizontalGroup(
         jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel7Layout.createSequentialGroup()
-            .addGap(78, 78, 78)
+            .addGap(29, 29, 29)
             .addComponent(jButton1)
-            .addGap(76, 76, 76)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 148, Short.MAX_VALUE)
             .addComponent(jButton2)
-            .addContainerGap(75, Short.MAX_VALUE))
+            .addGap(52, 52, 52))
     );
     jPanel7Layout.setVerticalGroup(
         jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,9 +156,9 @@ jPanel8Layout.setHorizontalGroup(
     .addGroup(jPanel8Layout.createSequentialGroup()
         .addContainerGap()
         .addComponent(jButton3)
-        .addGap(67, 67, 67)
-        .addComponent(jButton4)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+        .addGap(55, 55, 55)
+        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
         .addComponent(jButton5)
         .addGap(31, 31, 31))
     );

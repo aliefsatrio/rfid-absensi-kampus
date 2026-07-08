@@ -176,17 +176,17 @@ public class AdminPage extends javax.swing.JFrame implements I18nService.I18nCha
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(57, 57, 57)
                 .addComponent(jButton1)
-                .addGap(50, 50, 50)
+                .addGap(38, 38, 38)
                 .addComponent(jButton2)
-                .addGap(45, 45, 45)
+                .addGap(46, 46, 46)
                 .addComponent(jButton3)
-                .addGap(57, 57, 57)
+                .addGap(41, 41, 41)
                 .addComponent(jButton4)
-                .addGap(36, 36, 36)
+                .addGap(43, 43, 43)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addGap(58, 58, 58)
                 .addComponent(jButton5)
-                .addGap(54, 54, 54))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
 
         jPanel2.add(jPanel5, java.awt.BorderLayout.CENTER);
