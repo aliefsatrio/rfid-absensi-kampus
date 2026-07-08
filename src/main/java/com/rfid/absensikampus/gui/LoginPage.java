@@ -6,6 +6,9 @@ package com.rfid.absensikampus.gui;
 
 import java.awt.HeadlessException;
 import javax.swing.JFrame;
+import services.AuthService;
+import javax.swing.JOptionPane;
+import objects.Mahasiswa;
 
 /**
  *
@@ -13,6 +16,7 @@ import javax.swing.JFrame;
  */
 public class LoginPage extends javax.swing.JFrame {
     
+    private String role = "ADMIN";
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginPage.class.getName());
 
     /**
@@ -86,13 +90,21 @@ public class LoginPage extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(51, 153, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setBackground(new java.awt.Color(51, 51, 255));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("MAHASISWA");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        jButton1.setText("Dosen");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 90, -1));
 
-        jButton2.setText("DOSEN");
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 100, -1));
+        jButton2.setText("ADMIN");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 10, 100, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 260, 250, 40));
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 460, -1, -1));
@@ -101,43 +113,69 @@ public class LoginPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-try {
-    // 1. Ambil input dari textfield
-    String username = txtUsername.getText();
-    // Mengambil password dari JPasswordField
-    String password = new String(txtPassword.getPassword());
+        // TODO add your handling code here:
+        String username = txtUsername.getText();
+        String password = String.valueOf(txtPassword.getPassword());
 
-    // 2. Hubungkan ke database menggunakan MongoManager
-   com.mongodb.client.MongoDatabase db =
-    com.rfid.absensikampus.MongoManager.getDatabase();
+        AuthService auth = new AuthService();
 
-com.mongodb.client.MongoCollection<org.bson.Document> col =
-    db.getCollection("Admin");
+        if (role.equals("ADMIN")) {
 
-    // 3. Cari data yang cocok
-    org.bson.Document query = new org.bson.Document("username", username)
-                                    .append("password", password);
-    org.bson.Document user = col.find(query).first();
+        if (auth.loginAdmin(username, password)) {
 
-    // 4. Cek hasil pencarian
-    if (user != null) {
-    javax.swing.JOptionPane.showMessageDialog(this, "Login Berhasil!");
+                DashboardAdmin dashboard =
+                        new DashboardAdmin();
 
-    // Membuka DashboardAdmin
-    DashboardAdmin dashboard = new DashboardAdmin();
-    dashboard.setVisible(true);
+                dashboard.setLocationRelativeTo(null);
+                dashboard.setVisible(true);
 
-    // Menutup halaman login
-    this.dispose();
+                dispose();
 
-} else {
-    javax.swing.JOptionPane.showMessageDialog(this, "Username atau Password Salah!");
-}
+        } else {
 
-} catch (HeadlessException e) {
-    javax.swing.JOptionPane.showMessageDialog(this, "Terjadi Kesalahan: " + e.getMessage());
-}        // TODO add your handling code here:
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Username atau Password Admin salah!"
+                );
+
+            }
+
+        } else {
+
+            Mahasiswa mahasiswa =
+                    auth.loginDosen(username,password);
+
+            if(mahasiswa != null){
+
+                DashboardPage dashboard =
+                        new DashboardPage(mahasiswa);
+
+                dashboard.setLocationRelativeTo(null);
+                dashboard.setVisible(true);
+
+                dispose();
+
+            }else{
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Username atau Password Mahasiswa salah!"
+                );
+
+            }
+
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        role = "ADMIN";
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        role = "MAHASISWA";
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

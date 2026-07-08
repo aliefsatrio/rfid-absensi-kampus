@@ -1,4 +1,4 @@
-package com.rfid.absensikampus;
+package util;
 
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;

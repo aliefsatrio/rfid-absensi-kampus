@@ -1,15 +1,11 @@
-package com.rfid.absensikampus;
+package dao;
 
-import com.ituhn.pemkom2.dao.BaseDAO;
+import com.ituhn.pemkom2.util.MongoManager;
 import com.mongodb.client.MongoCollection;
 import org.bson.conversions.Bson;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Implementasi Generic DAO untuk MongoDB yang efisien dan reusable.
- * @param <T>
- */
 public class GenericDAO<T> implements BaseDAO<T> {
     private final MongoCollection<T> collection;
     private final Class<T> clazz;
@@ -20,28 +16,39 @@ public class GenericDAO<T> implements BaseDAO<T> {
         this.collection = MongoManager.getDatabase().getCollection(collectionName, clazz);
     }
 
+    @Override
     public void save(T entity) {
         collection.insertOne(entity);
     }
 
-    
+    @Override
     public void update(Bson filter, T entity) {
-        collection.updateOne(filter, new org.bson.Document("$set", entity));
+        collection.replaceOne(filter, entity);
     }
 
+    @Override
     public void delete(Bson filter) {
         collection.deleteOne(filter);
     }
 
+    @Override
     public List<T> findAll() {
         return collection.find().into(new ArrayList<>());
     }
 
+    @Override
     public T findOne(Bson filter) {
         return collection.find(filter).first();
     }
 
+    @Override
     public List<T> findMany(Bson filter) {
         return collection.find(filter).into(new ArrayList<>());
+    }
+    
+    public long deleteAll() {
+    return collection.deleteMany(new org.bson.Document())
+            .getDeletedCount();
+
     }
 }

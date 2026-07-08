@@ -1,16 +1,14 @@
 package objects;
 
 import java.time.LocalDateTime;
+import org.bson.types.ObjectId;
 
-/**
- *
- * @author mnish
- */
 public class User {
 
+    private ObjectId id;
     private String fullname;
     private String username;
-    private String password; // Tersimpan dalam format Hash SHA-256
+    private String password;
     private LocalDateTime lastLogin;
 
     public User() {
@@ -23,7 +21,14 @@ public class User {
         this.lastLogin = lastLogin;
     }
 
-    // Getter dan Setter untuk akses data secara enkapsulasi [1]
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
+
     public String getFullname() {
         return fullname;
     }

@@ -35,6 +35,7 @@ public class SerialService {
     }
 
     public boolean connect(String portName, int baudRate) {
+
         if (activePort != null && activePort.isOpen()) {
             return true;
         }
@@ -48,7 +49,7 @@ public class SerialService {
         );
 
         if (activePort.openPort()) {
-            System.out.println("INFO: Port " + portName + " terbuka.");
+            System.out.println("INFO: Port " + portName + " berhasil dibuka.");
             setupListener();
             return true;
         }
@@ -58,7 +59,9 @@ public class SerialService {
     }
 
     private void setupListener() {
+
         activePort.addDataListener(new SerialPortDataListener() {
+
             @Override
             public int getListeningEvents() {
                 return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
@@ -66,11 +69,14 @@ public class SerialService {
 
             @Override
             public void serialEvent(SerialPortEvent event) {
-                if (event.getEventType() != SerialPort.LISTENING_EVENT_DATA_AVAILABLE) {
+
+                if (event.getEventType()
+                        != SerialPort.LISTENING_EVENT_DATA_AVAILABLE) {
                     return;
                 }
 
                 try {
+
                     byte[] buffer = new byte[activePort.bytesAvailable()];
                     int bytesRead = activePort.readBytes(buffer, buffer.length);
 
@@ -83,7 +89,7 @@ public class SerialService {
                     }
 
                 } catch (Exception e) {
-                    System.err.println("ERROR membaca serial: " + e.getMessage());
+                    System.err.println("ERROR membaca data serial: " + e.getMessage());
                 }
             }
         });
@@ -96,14 +102,19 @@ public class SerialService {
     }
 
     public void disconnect() {
+
         if (activePort != null && activePort.isOpen()) {
             activePort.removeDataListener();
             activePort.closePort();
-            System.out.println("INFO: Port ditutup.");
+            System.out.println("INFO: Port berhasil ditutup.");
         }
     }
 
     public boolean isConnected() {
         return activePort != null && activePort.isOpen();
+    }
+
+    public SerialPort getActivePort() {
+        return activePort;
     }
 }

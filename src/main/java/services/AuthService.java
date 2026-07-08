@@ -1,107 +1,84 @@
 package services;
 
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import com.rfid.absensikampus.MongoManager;
-import com.rfid.absensikampus.gui.DashboardAdmin;
-import com.rfid.absensikampus.gui.LoginPage;
-import org.bson.Document;
-
-import javax.swing.JOptionPane;
+import com.mongodb.client.model.Filters;
+import dao.GenericDAO;
+import java.time.LocalDateTime;
+import objects.Mahasiswa;
+import objects.User;
+import org.bson.conversions.Bson;
 
 public class AuthService {
 
-    private final MongoDatabase database;
-    private final MongoCollection<Document> adminCollection;
+    private final GenericDAO<User> adminDAO =
+            new GenericDAO<>("Admin", User.class);
 
-    public AuthService() {
-        database = MongoManager.getDatabase();
+    private final GenericDAO<Mahasiswa> mahasiswaDAO =
+            new GenericDAO<>("mahasiswa", Mahasiswa.class);
 
-        // Sesuaikan dengan nama collection di MongoDB Compass kamu
-        // Dari screenshot kamu: collection = "admin"
-        adminCollection = database.getCollection("admin");
-    }
+    /**
+     * LOGIN ADMIN
+     */
+    public boolean loginAdmin(String username, String password) {
 
-    public void login(String username, String password, LoginPage loginPage) {
-        try {
-            username = username.trim();
-            password = password.trim();
+        User admin = adminDAO.findOne(
+                Filters.and(
+                        Filters.eq("username", username),
+                        Filters.eq("password", password)
+                )
+        );
 
-            if (username.isEmpty() || password.isEmpty()) {
-                JOptionPane.showMessageDialog(
-                        loginPage,
-                        "Username dan password wajib diisi!"
-                );
-                return;
-            }
+        if (admin != null) {
 
-            Document query = new Document("username", username)
-                    .append("password", password);
+            admin.setLastLogin(LocalDateTime.now());
 
-            Document user = adminCollection.find(query).first();
+            Bson filter = Filters.eq("username", username);
 
-            System.out.println("Database: " + database.getName());
-            System.out.println("Collection: admin");
-            System.out.println("Username input: " + username);
-            System.out.println("Password input: " + password);
-            System.out.println("User ditemukan: " + user);
+            adminDAO.update(filter, admin);
 
-            if (user != null) {
-                JOptionPane.showMessageDialog(
-                        loginPage,
-                        "Login Berhasil!"
-                );
-
-                DashboardAdmin dashboard = new DashboardAdmin();
-                dashboard.setLocationRelativeTo(null);
-                dashboard.setVisible(true);
-
-                loginPage.dispose();
-
-            } else {
-                JOptionPane.showMessageDialog(
-                        loginPage,
-                        "Username atau Password Salah!",
-                        "Login Gagal",
-                        JOptionPane.ERROR_MESSAGE
-                );
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(
-                    loginPage,
-                    "Terjadi kesalahan saat login: " + e.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
-            e.printStackTrace();
+            return true;
         }
+
+        return false;
     }
 
-    public void registerAdmin(String username, String password) {
-        try {
-            Document data = new Document("username", username.trim())
-                    .append("password", password.trim());
+    /**
+     * LOGIN MAHASISWA
+     */
+    public Mahasiswa loginDosen(String username,
+                                    String password) {
 
-            adminCollection.insertOne(data);
+        return mahasiswaDAO.findOne(
+                Filters.and(
+                        Filters.eq("username", username),
+                        Filters.eq("password", password)
+                )
+        );
 
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Admin berhasil ditambahkan!"
-            );
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Gagal menambahkan admin: " + e.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
-            e.printStackTrace();
-        }
     }
 
-    void registerUser(String yusuf_Maulana, String admin, String string) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    /**
+     * REGISTER ADMIN
+     */
+    public void registerAdmin(String fullname,
+                              String username,
+                              String password) {
+
+        User admin = new User(
+                fullname,
+                username,
+                password,
+                null
+        );
+
+        adminDAO.save(admin);
     }
+
+    /**
+     * REGISTER MAHASISWA
+     */
+    public void registerDosen(Mahasiswa mahasiswa) {
+
+        mahasiswaDAO.save(mahasiswa);
+    }
+
 }
