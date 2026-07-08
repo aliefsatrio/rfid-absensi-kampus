@@ -77,7 +77,6 @@ public class Profile extends javax.swing.JFrame {
         jLabel1.setText("Profile");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, 80, 40));
 
-        jButton1.setIcon(new javax.swing.ImageIcon("D:\\fp.png")); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);

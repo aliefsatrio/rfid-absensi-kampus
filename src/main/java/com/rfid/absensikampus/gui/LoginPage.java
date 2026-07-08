@@ -83,16 +83,18 @@ public class LoginPage extends javax.swing.JFrame {
         txtPassword.setBackground(new java.awt.Color(204, 204, 204));
         getContentPane().add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 410, 300, 40));
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel1.setBackground(new java.awt.Color(51, 153, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jButton1.setBackground(new java.awt.Color(51, 51, 255));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("MAHASISWA");
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         jButton2.setText("DOSEN");
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 10, 100, -1));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 100, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 260, 260, 40));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 260, 250, 40));
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 460, -1, -1));
 
         pack();
